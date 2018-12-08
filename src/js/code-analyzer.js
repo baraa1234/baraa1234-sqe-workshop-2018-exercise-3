@@ -1,7 +1,12 @@
 import * as esprima from 'esprima';
+import * as escodegen from 'escodegen';
 
-const parseCode = (codeToParse) => {
-    return esprima.parseScript(codeToParse);
+const parseCode = (codeToParse,withLoc) => {
+    return esprima.parseScript(codeToParse,{loc:withLoc});
+};
+const UnparseCode = (codeToUnParse) => {
+    return escodegen.generate(codeToUnParse,null);
 };
 
-export {parseCode};
+
+export {parseCode,UnparseCode};
