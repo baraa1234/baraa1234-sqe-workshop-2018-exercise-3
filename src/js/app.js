@@ -1,27 +1,24 @@
 import $ from 'jquery';
+var cytoscape = require('cytoscape');
+var flowgraph = require('./flowgraph');
 
-import {start} from './eval';
 
-function add_row(line) {
-    let table =$('#Body');
-    table.append('<div>');
-    table.append('<span  style="background-color:'+line.color+';" id="submittername1">'+line.line+'</span>');
 
-    table.append('</div>');
+$(document).ready(function () { $('#codeSubmissionButton').click(() => {
 
-}
-function refresh(){
+    let codeToParse = $('#codePlaceholder').val();
+    let params = $('#paramPlaceholder').val();
+    let elements = flowgraph.start(codeToParse,params);
 
-    $('#Body').empty();
-}
-$(document).ready(function () {
-    $('#codeSubmissionButton').click(() => {
-        refresh();
-        let codeToParse = $('#codePlaceholder').val();
-        let params = $('#paramPlaceholder').val();
-        let lines = start(codeToParse,params);
-        lines.forEach(function(element){
-            add_row(element);
-        });
-    });
+
+    cytoscape({
+        container: document.getElementById('cy'), // container to render in
+        elements: elements,
+        style: [
+            {
+                selector: 'node', style: {'text-valign':'center', 'color':'black', 'label': 'data(text)', 'shape':'data(shape)', 'background-color':'data(color)', 'border-width':3, 'height':50, 'width':100}},
+            {selector: 'edge', style: {'width': 1, 'line-color': 'black', 'curve-style': 'bezier', 'target-arrow-shape': 'triangle'}}],
+        layout: {name:'breadthfirst', directed:true, paddding:10}});
+
+});
 });

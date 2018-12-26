@@ -1,6 +1,6 @@
-import * as esprima from 'esprima';
-import * as escodegen from 'escodegen';
 
+var esprima = require('esprima');
+var escodegen = require('escodegen');
 const parseCode = (codeToParse,withLoc) => {
     return esprima.parseScript(codeToParse,{loc:withLoc});
 };
@@ -9,4 +9,4 @@ const UnparseCode = (codeToUnParse) => {
 };
 
 
-export {parseCode,UnparseCode};
+module.exports ={parseCode,UnparseCode};
